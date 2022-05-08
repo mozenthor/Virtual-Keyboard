@@ -430,4 +430,519 @@ const allKeys = [
 
 allKeys.forEach((el) => keyboard.append(addKey(el.value, el.value_ru, el.class_name)));
 
+const keys = document.querySelectorAll('.key');
+const shiftKey = document.querySelectorAll('.shift_key');
+const capsLock = document.querySelector('.caps_lock');
+const aZKey = document.querySelectorAll('.a_z_key');
+const defaultKey = document.querySelectorAll('.default_key');
+
+const countIndex = (e) => allKeys.map((item, i) => ((item.code === e.keyCode)
+  ? i
+  : undefined)).filter((val) => val)[0];
+
+const switchLng = () => {
+  if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'Q') {
+    localStorage.setItem('language', 'ru');
+    if (aZKey[1].textContent === 'q') {
+      keys.forEach((element, index) => {
+        const el = element;
+        if (allKeys[index].value_ru !== undefined) {
+          el.innerHTML = allKeys[index].value_ru;
+        }
+      });
+    } else {
+      keys.forEach((element, index) => {
+        const el = element;
+        if (allKeys[index].value_ru !== undefined) {
+          el.innerHTML = allKeys[index].value_ru.toUpperCase();
+        }
+      });
+    }
+  } else if (aZKey[1].textContent === 'й' || aZKey[1].textContent === 'Й') {
+    localStorage.setItem('language', 'en');
+    if (aZKey[1].textContent === 'й') {
+      keys.forEach((element, index) => {
+        const el = element;
+        el.innerHTML = allKeys[index].value;
+      });
+    } else {
+      keys.forEach((element, index) => {
+        const el = element;
+        if (allKeys[index].value_ru !== undefined) {
+          el.innerHTML = allKeys[index].value.toUpperCase();
+        }
+      });
+    }
+  }
+};
+
+document.addEventListener('keyup', (event) => {
+  if ((event.code === 'ControlLeft' && event.altKey) || (event.code === 'AltLeft' && event.ctrlKey)) {
+    switchLng();
+  }
+});
+
+keys[55].addEventListener('mouseup', () => {
+  if (keys[57].classList.contains('active_key')) {
+    switchLng();
+  }
+});
+keys[57].addEventListener('mouseup', () => {
+  if (keys[55].classList.contains('active_key')) {
+    switchLng();
+  }
+});
+
+capsLock.addEventListener('click', () => {
+  if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'й') {
+    aZKey.forEach((ele) => {
+      const element = ele;
+      element.textContent = element.textContent.toUpperCase();
+    });
+  } else {
+    aZKey.forEach((ele) => {
+      const element = ele;
+      element.textContent = element.textContent.toLowerCase();
+    });
+  }
+  capsLock.classList.toggle('active_key');
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'CapsLock') {
+    if (event.repeat === false) {
+      if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'й') {
+        aZKey.forEach((ele) => {
+          const element = ele;
+          element.textContent = element.textContent.toUpperCase();
+        });
+      } else {
+        aZKey.forEach((ele) => {
+          const element = ele;
+          element.textContent = element.textContent.toLowerCase();
+        });
+      }
+      capsLock.classList.toggle('active_key');
+    }
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (keys[1].textContent === '1') {
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+      if (event.repeat === false) {
+        if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'й') {
+          aZKey.forEach((ele) => {
+            const element = ele;
+            element.textContent = element.textContent.toUpperCase();
+          });
+        } else {
+          aZKey.forEach((ele) => {
+            const element = ele;
+            element.textContent = element.textContent.toLowerCase();
+          });
+        }
+      }
+      allKeys.forEach((element, index) => {
+        const el = element;
+        const id = index;
+        if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'Q') {
+          if (el.alt_value !== undefined) {
+            keys[id].textContent = el.alt_value;
+          }
+        } else if (el.alt_value_ru !== undefined) {
+          keys[id].textContent = el.alt_value_ru;
+        }
+      });
+    }
+  }
+});
+
+document.addEventListener('keyup', (event) => {
+  if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+    if (event.repeat === false) {
+      if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'й') {
+        aZKey.forEach((ele) => {
+          const element = ele;
+          element.textContent = element.textContent.toUpperCase();
+        });
+      } else {
+        aZKey.forEach((ele) => {
+          const element = ele;
+          element.textContent = element.textContent.toLowerCase();
+        });
+      }
+    }
+    allKeys.forEach((element, index) => {
+      const el = element;
+      const id = index;
+      if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'Q') {
+        if (el.alt_value !== undefined) {
+          keys[id].textContent = el.value;
+        }
+      } else if (el.alt_value_ru !== undefined) {
+        keys[id].textContent = el.value_ru;
+      }
+    });
+  }
+});
+
+shiftKey.forEach((item) => item.addEventListener('mousedown', () => {
+  if (keys[1].textContent === '1') {
+    item.classList.add('active_key');
+    if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'й') {
+      aZKey.forEach((ele) => {
+        const element = ele;
+        element.textContent = element.textContent.toUpperCase();
+      });
+    } else {
+      aZKey.forEach((ele) => {
+        const element = ele;
+        element.textContent = element.textContent.toLowerCase();
+      });
+    }
+    allKeys.forEach((element, index) => {
+      const el = element;
+      const id = index;
+      if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'Q') {
+        if (el.alt_value !== undefined) {
+          keys[id].textContent = el.alt_value;
+        }
+      } else if (el.alt_value_ru !== undefined) {
+        keys[id].textContent = el.alt_value_ru;
+      }
+    });
+  }
+}));
+
+document.addEventListener('mouseup', (event) => {
+  if (!event.shiftKey && (shiftKey[0].classList.contains('active_key') || shiftKey[1].classList.contains('active_key'))) {
+    shiftKey.forEach((el) => el.classList.remove('active_key'));
+    if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'й') {
+      aZKey.forEach((ele) => {
+        const element = ele;
+        element.textContent = element.textContent.toUpperCase();
+      });
+    } else {
+      aZKey.forEach((ele) => {
+        const element = ele;
+        element.textContent = element.textContent.toLowerCase();
+      });
+    }
+    allKeys.forEach((element, index) => {
+      const el = element;
+      const id = index;
+      if (aZKey[1].textContent === 'q' || aZKey[1].textContent === 'Q') {
+        if (el.alt_value !== undefined) {
+          keys[id].textContent = el.value;
+        }
+      } else if (el.alt_value_ru !== undefined) {
+        keys[id].textContent = el.value_ru;
+      }
+    });
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  keys.forEach((el) => {
+    if (event.code === 'ShiftLeft') {
+      shiftKey[0].classList.add('active_key');
+    }
+    if (event.code === 'ShiftRight') {
+      shiftKey[1].classList.add('active_key');
+    }
+    if (event.code === 'ControlLeft') {
+      keys[55].classList.add('active_key');
+    }
+    if (event.code === 'ControlRight') {
+      keys[63].classList.add('active_key');
+    }
+    if (event.code === 'AltLeft') {
+      keys[57].classList.add('active_key');
+    }
+    if (event.code === 'AltRight') {
+      keys[59].classList.add('active_key');
+      if (!event.ctrlKey) {
+        keys[55].classList.remove('active_key');
+      }
+    }
+    if (event.code === 'Delete') {
+      keys[28].classList.add('active_key');
+    }
+    if (event.code === 'MetaLeft') {
+      keys[56].classList.add('active_key');
+    }
+    if (event.code === 'Space') {
+      keys[58].classList.add('active_key');
+    }
+    if (event.code === 'ArrowUp') {
+      keys[53].classList.add('active_key');
+    }
+    if (event.code === 'ArrowLeft') {
+      keys[60].classList.add('active_key');
+    }
+    if (event.code === 'ArrowDown') {
+      keys[61].classList.add('active_key');
+    }
+    if (event.code === 'ArrowRight') {
+      keys[62].classList.add('active_key');
+    }
+    if (event.code === 'Backspace') {
+      keys[13].classList.add('active_key');
+    }
+    if (event.code === 'Tab') {
+      keys[14].classList.add('active_key');
+    }
+    if (event.code === 'Enter') {
+      keys[41].classList.add('active_key');
+    }
+    const count = countIndex(event);
+    if (count && el.textContent !== 'CapsLock' && el.textContent !== 'Shift' && el.textContent !== 'Alt') {
+      keys[count].classList.add('active_key');
+    }
+    if (event.key === '`' || event.key === '~' || event.key === 'ё' || event.key === 'Ё') {
+      keys[0].classList.add('active_key');
+    }
+  });
+});
+
+document.addEventListener('keyup', (event) => {
+  keys.forEach((el) => {
+    if (event.code === 'ShiftLeft') {
+      shiftKey[0].classList.remove('active_key');
+      shiftKey[1].classList.remove('active_key');
+    }
+    if (event.code === 'ShiftRight') {
+      shiftKey[0].classList.remove('active_key');
+      shiftKey[1].classList.remove('active_key');
+    }
+    if (event.code === 'ControlLeft') {
+      keys[55].classList.remove('active_key');
+    }
+    if (event.code === 'ControlRight') {
+      keys[63].classList.remove('active_key');
+    }
+    if (event.code === 'AltLeft') {
+      keys[57].classList.remove('active_key');
+    }
+    if (event.code === 'AltRight') {
+      keys[59].classList.remove('active_key');
+    }
+    if (event.code === 'Delete') {
+      keys[28].classList.remove('active_key');
+    }
+    if (event.code === 'MetaLeft') {
+      keys[56].classList.remove('active_key');
+    }
+    if (event.code === 'Space') {
+      keys[58].classList.remove('active_key');
+    }
+    if (event.code === 'ArrowUp') {
+      keys[53].classList.remove('active_key');
+    }
+    if (event.code === 'ArrowLeft') {
+      keys[60].classList.remove('active_key');
+    }
+    if (event.code === 'ArrowDown') {
+      keys[61].classList.remove('active_key');
+    }
+    if (event.code === 'ArrowRight') {
+      keys[62].classList.remove('active_key');
+    }
+    if (event.code === 'Backspace') {
+      keys[13].classList.remove('active_key');
+    }
+    if (event.code === 'Tab') {
+      keys[14].classList.remove('active_key');
+    }
+    if (event.code === 'Enter') {
+      keys[41].classList.remove('active_key');
+    }
+    const count = countIndex(event);
+    if (count && el.textContent !== 'CapsLock' && el.textContent !== 'Shift' && el.textContent !== 'Alt') {
+      keys[count].classList.remove('active_key');
+    }
+    if (event.key === '`' || event.key === '~' || event.key === 'ё' || event.key === 'Ё') {
+      keys[0].classList.remove('active_key');
+    }
+  });
+});
+
+keys.forEach((elem) => {
+  if (elem.textContent !== 'CapsLock') {
+    elem.addEventListener('mousedown', () => {
+      elem.classList.add('active_key');
+    });
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  keys.forEach((el) => {
+    if (el.textContent !== 'Shift' && el.textContent !== 'CapsLock') {
+      el.classList.remove('active_key');
+    }
+  });
+});
+
+let start = 0;
+let end = 0;
+
+const x = () => {
+  start = textarea.selectionStart;
+  end = textarea.selectionEnd;
+  document.removeEventListener('mouseup', x);
+};
+
+const listener = () => {
+  document.addEventListener('mouseup', x);
+};
+
+textarea.addEventListener('mousedown', listener);
+
+defaultKey.forEach((element) => {
+  element.addEventListener('mousedown', () => {
+    if (element.textContent === 'Tab') {
+      textarea.textContent = `${textarea.value.slice(0, start)
+      }\t${textarea.value.slice(end)}`;
+      start += 1;
+      end = start;
+    } else {
+      textarea.textContent = textarea.value.slice(0, start)
+      + element.textContent + textarea.value.slice(end);
+      start += 1;
+      end = start;
+    }
+  });
+});
+
+defaultKey.forEach((element) => {
+  element.addEventListener('mouseup', (e) => {
+    if (keys[1].textContent === '!' && !e.shiftKey && element.textContent !== 'Tab') {
+      textarea.textContent = textarea.value.slice(0, start)
+    + element.textContent + textarea.value.slice(end);
+      start += 1;
+      end = start;
+    }
+  });
+});
+
+document.addEventListener('keydown', (event) => {
+  const count = countIndex(event);
+  textarea.blur();
+  if (count && event.key !== 'Tab') {
+    textarea.textContent = textarea.value.slice(0, start)
+    + keys[count].textContent + textarea.value.slice(end);
+    start += 1;
+    end = start;
+  }
+  if (event.key === '`' || event.key === '~' || event.key === 'ё' || event.key === 'Ё') {
+    textarea.textContent = textarea.value.slice(0, start)
+    + keys[0].textContent + textarea.value.slice(end);
+    start += 1;
+    end = start;
+  }
+  if (event.code === 'Space') {
+    textarea.textContent = `${textarea.value.slice(0, start)
+    } ${textarea.value.slice(end)}`;
+    start += 1;
+    end = start;
+  }
+  if (event.code === 'Tab') {
+    textarea.textContent = `${textarea.value.slice(0, start)
+    }\t${textarea.value.slice(end)}`;
+    start += 1;
+    end = start;
+  }
+  if (event.key === 'ArrowUp') {
+    textarea.textContent = `${textarea.value.slice(0, start)
+    }˄${textarea.value.slice(end)}`;
+    start += 1;
+    end = start;
+  }
+  if (event.key === 'ArrowDown') {
+    textarea.textContent = `${textarea.value.slice(0, start)
+    }˅${textarea.value.slice(end)}`;
+    start += 1;
+    end = start;
+  }
+  if (event.key === 'ArrowRight') {
+    textarea.textContent = `${textarea.value.slice(0, start)
+    }>${textarea.value.slice(end)}`;
+    start += 1;
+    end = start;
+  }
+  if (event.key === 'ArrowLeft') {
+    textarea.textContent = `${textarea.value.slice(0, start)
+    }<${textarea.value.slice(end)}`;
+    start += 1;
+    end = start;
+  }
+});
+
+keys.forEach((element) => {
+  element.addEventListener('mouseup', () => {
+    if (element.textContent === 'Backspace') {
+      if (start === end && start !== 0) {
+        textarea.textContent = `${textarea.value.slice(0, start - 1)
+        }${textarea.value.slice(end)}`;
+        start -= 1;
+        end = start;
+      } else {
+        textarea.textContent = `${textarea.value.slice(0, start)
+        }${textarea.value.slice(end)}`;
+        end = start;
+      }
+    }
+    if (element.textContent === 'Del') {
+      if (start === end) {
+        textarea.textContent = `${textarea.value.slice(0, start)
+        }${textarea.value.slice(end + 1)}`;
+        end = start;
+      } else {
+        textarea.textContent = `${textarea.value.slice(0, start)
+        }${textarea.value.slice(end)}`;
+        end = start;
+      }
+    }
+    if (element.textContent === 'Enter') {
+      textarea.textContent = `${textarea.value.slice(0, start)
+      }\n${textarea.value.slice(end)}`;
+      start += 1;
+      end = start;
+    }
+  });
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Backspace') {
+    if (start === end && start !== 0) {
+      textarea.textContent = `${textarea.value.slice(0, start - 1)
+      }${textarea.value.slice(end)}`;
+      start -= 1;
+      end = start;
+    } else {
+      textarea.textContent = `${textarea.value.slice(0, start)
+      }${textarea.value.slice(end)}`;
+      end = start;
+    }
+  }
+  if (event.key === 'Delete') {
+    if (start === end) {
+      textarea.textContent = `${textarea.value.slice(0, start)
+      }${textarea.value.slice(end + 1)}`;
+      end = start;
+    } else {
+      textarea.textContent = `${textarea.value.slice(0, start)
+      }${textarea.value.slice(end)}`;
+      end = start;
+    }
+  }
+  if (event.key === 'Enter') {
+    textarea.textContent = `${textarea.value.slice(0, start)
+    }\n${textarea.value.slice(end)}`;
+    start += 1;
+    end = start;
+  }
+});
+
 document.addEventListener('keydown', (e) => e.preventDefault());
