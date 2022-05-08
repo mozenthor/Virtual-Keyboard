@@ -20,8 +20,6 @@ description.className = 'description';
 wrapper.append(description);
 description.innerHTML = '*Клавиатура создана для ОС Windows <br> *Комбинация сля смены языка: left Ctrl + Alt <br> *Для ввода мышью символа доступного только при зажатом Shift: <br> Зажмите мышью Shift затем переместите курсор на нужный символ и отпустите <br> *Используя метод описанный выше, <br> вы можете так же переключить язык используя только мышь';
 
-localStorage.setItem('language', 'en');
-
 function addKey(value, valueRu, className) {
   const key = document.createElement('div');
   key.className = className;
